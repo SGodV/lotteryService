@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.zucc.cxw.lottery.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="cn.edu.zucc.cxw.lottery.entity.User">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_email" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="user_pwd" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="user_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="rock_period" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_power" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="user_phone" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_email, user_pwd, user_name, rock_period, user_power, user_phone
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByUserEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where user_email = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByUserPhone" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where user_phone = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.zucc.cxw.lottery.entity.User">
+    insert into user (id, user_email, user_pwd, 
+      user_name, rock_period, user_power, 
+      user_phone)
+    values (#{id,jdbcType=INTEGER}, #{userEmail,jdbcType=VARCHAR}, #{userPwd,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{rockPeriod,jdbcType=INTEGER}, #{userPower,jdbcType=CHAR}, 
+      #{userPhone,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.zucc.cxw.lottery.entity.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userEmail != null">
+        user_email,
+      </if>
+      <if test="userPwd != null">
+        user_pwd,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="rockPeriod != null">
+        rock_period,
+      </if>
+      <if test="userPower != null">
+        user_power,
+      </if>
+      <if test="userPhone != null">
+        user_phone,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userEmail != null">
+        #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userPwd != null">
+        #{userPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="rockPeriod != null">
+        #{rockPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="userPower != null">
+        #{userPower,jdbcType=CHAR},
+      </if>
+      <if test="userPhone != null">
+        #{userPhone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.zucc.cxw.lottery.entity.User">
+    update user
+    <set>
+      <if test="userEmail != null">
+        user_email = #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userPwd != null">
+        user_pwd = #{userPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="rockPeriod != null">
+        rock_period = #{rockPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="userPower != null">
+        user_power = #{userPower,jdbcType=CHAR},
+      </if>
+      <if test="userPhone != null">
+        user_phone = #{userPhone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.zucc.cxw.lottery.entity.User">
+    update user
+    set user_email = #{userEmail,jdbcType=VARCHAR},
+      user_pwd = #{userPwd,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      rock_period = #{rockPeriod,jdbcType=INTEGER},
+      user_power = #{userPower,jdbcType=CHAR},
+      user_phone = #{userPhone,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
