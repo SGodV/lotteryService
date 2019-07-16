@@ -7,21 +7,27 @@ public class Result {
 
     private String resultVal;
 
-    public Result(Integer id, Integer resultPeriod, String resultVal) {
-        this.id = id;
-        this.resultPeriod = resultPeriod;
-        this.resultVal = resultVal;
-    }
-
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getResultPeriod() {
         return resultPeriod;
     }
 
+    public void setResultPeriod(Integer resultPeriod) {
+        this.resultPeriod = resultPeriod;
+    }
+
     public String getResultVal() {
         return resultVal;
+    }
+
+    public void setResultVal(String resultVal) {
+        this.resultVal = resultVal == null ? null : resultVal.trim();
     }
 }

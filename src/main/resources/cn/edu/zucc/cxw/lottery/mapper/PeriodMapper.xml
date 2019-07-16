@@ -2,37 +2,46 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.zucc.cxw.lottery.mapper.PeriodMapper">
   <resultMap id="BaseResultMap" type="cn.edu.zucc.cxw.lottery.entity.Period">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="begin_date" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="end_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="rule" javaType="java.lang.String" jdbcType="VARCHAR" />
-    </constructor>
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="begin_date" jdbcType="TIMESTAMP" property="beginDate" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="num_if" jdbcType="BIT" property="numIf" />
+    <result column="num_length" jdbcType="INTEGER" property="numLength" />
+    <result column="letter_if" jdbcType="BIT" property="letterIf" />
+    <result column="letter_length" jdbcType="INTEGER" property="letterLength" />
+    <result column="join_num" jdbcType="INTEGER" property="joinNum" />
+    <result column="win_num" jdbcType="INTEGER" property="winNum" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="cn.edu.zucc.cxw.lottery.entity.Period">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="begin_date" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="end_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="rule" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="pic" javaType="_byte[]" jdbcType="LONGVARBINARY" />
-    </constructor>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="cn.edu.zucc.cxw.lottery.entity.Period">
+    <result column="pic" jdbcType="LONGVARBINARY" property="pic" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, title, begin_date, end_time, rule
+    id, title, begin_date, end_time, num_if, num_length, letter_if, letter_length, join_num, 
+    win_num
   </sql>
   <sql id="Blob_Column_List">
     pic
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
+    <include refid="Base_Column_List" />
+    from period
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPrimaryKeyWithBLOBs" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from period
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from period
+    where end_time is NULL
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from period
@@ -40,11 +49,13 @@
   </delete>
   <insert id="insert" parameterType="cn.edu.zucc.cxw.lottery.entity.Period">
     insert into period (id, title, begin_date, 
-      end_time, rule, pic
-      )
+      end_time, num_if, num_length, 
+      letter_if, letter_length, join_num, 
+      win_num, pic)
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{beginDate,jdbcType=TIMESTAMP}, 
-      #{endTime,jdbcType=TIMESTAMP}, #{rule,jdbcType=VARCHAR}, #{pic,jdbcType=LONGVARBINARY}
-      )
+      #{endTime,jdbcType=TIMESTAMP}, #{numIf,jdbcType=BIT}, #{numLength,jdbcType=INTEGER}, 
+      #{letterIf,jdbcType=BIT}, #{letterLength,jdbcType=INTEGER}, #{joinNum,jdbcType=INTEGER}, 
+      #{winNum,jdbcType=INTEGER}, #{pic,jdbcType=LONGVARBINARY})
   </insert>
   <insert id="insertSelective" parameterType="cn.edu.zucc.cxw.lottery.entity.Period">
     insert into period
@@ -61,8 +72,23 @@
       <if test="endTime != null">
         end_time,
       </if>
-      <if test="rule != null">
-        rule,
+      <if test="numIf != null">
+        num_if,
+      </if>
+      <if test="numLength != null">
+        num_length,
+      </if>
+      <if test="letterIf != null">
+        letter_if,
+      </if>
+      <if test="letterLength != null">
+        letter_length,
+      </if>
+      <if test="joinNum != null">
+        join_num,
+      </if>
+      <if test="winNum != null">
+        win_num,
       </if>
       <if test="pic != null">
         pic,
@@ -81,8 +107,23 @@
       <if test="endTime != null">
         #{endTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="rule != null">
-        #{rule,jdbcType=VARCHAR},
+      <if test="numIf != null">
+        #{numIf,jdbcType=BIT},
+      </if>
+      <if test="numLength != null">
+        #{numLength,jdbcType=INTEGER},
+      </if>
+      <if test="letterIf != null">
+        #{letterIf,jdbcType=BIT},
+      </if>
+      <if test="letterLength != null">
+        #{letterLength,jdbcType=INTEGER},
+      </if>
+      <if test="joinNum != null">
+        #{joinNum,jdbcType=INTEGER},
+      </if>
+      <if test="winNum != null">
+        #{winNum,jdbcType=INTEGER},
       </if>
       <if test="pic != null">
         #{pic,jdbcType=LONGVARBINARY},
@@ -101,8 +142,23 @@
       <if test="endTime != null">
         end_time = #{endTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="rule != null">
-        rule = #{rule,jdbcType=VARCHAR},
+      <if test="numIf != null">
+        num_if = #{numIf,jdbcType=BIT},
+      </if>
+      <if test="numLength != null">
+        num_length = #{numLength,jdbcType=INTEGER},
+      </if>
+      <if test="letterIf != null">
+        letter_if = #{letterIf,jdbcType=BIT},
+      </if>
+      <if test="letterLength != null">
+        letter_length = #{letterLength,jdbcType=INTEGER},
+      </if>
+      <if test="joinNum != null">
+        join_num = #{joinNum,jdbcType=INTEGER},
+      </if>
+      <if test="winNum != null">
+        win_num = #{winNum,jdbcType=INTEGER},
       </if>
       <if test="pic != null">
         pic = #{pic,jdbcType=LONGVARBINARY},
@@ -115,7 +171,12 @@
     set title = #{title,jdbcType=VARCHAR},
       begin_date = #{beginDate,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
-      rule = #{rule,jdbcType=VARCHAR},
+      num_if = #{numIf,jdbcType=BIT},
+      num_length = #{numLength,jdbcType=INTEGER},
+      letter_if = #{letterIf,jdbcType=BIT},
+      letter_length = #{letterLength,jdbcType=INTEGER},
+      join_num = #{joinNum,jdbcType=INTEGER},
+      win_num = #{winNum,jdbcType=INTEGER},
       pic = #{pic,jdbcType=LONGVARBINARY}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -124,7 +185,12 @@
     set title = #{title,jdbcType=VARCHAR},
       begin_date = #{beginDate,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
-      rule = #{rule,jdbcType=VARCHAR}
+      num_if = #{numIf,jdbcType=BIT},
+      num_length = #{numLength,jdbcType=INTEGER},
+      letter_if = #{letterIf,jdbcType=BIT},
+      letter_length = #{letterLength,jdbcType=INTEGER},
+      join_num = #{joinNum,jdbcType=INTEGER},
+      win_num = #{winNum,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

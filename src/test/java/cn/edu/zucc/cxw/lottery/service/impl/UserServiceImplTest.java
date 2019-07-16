@@ -31,4 +31,10 @@ public class UserServiceImplTest {
         System.out.println(user.getUserEmail());
         System.out.println(user.getUserPhone());
     }
+
+    @Test
+    public void generateUser() {
+        for (int i = 0; i < 100; i ++)
+        userService.generateUser();
+    }
 }

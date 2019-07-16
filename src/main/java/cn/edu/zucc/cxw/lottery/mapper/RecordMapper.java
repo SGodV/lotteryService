@@ -2,6 +2,8 @@ package cn.edu.zucc.cxw.lottery.mapper;
 
 import cn.edu.zucc.cxw.lottery.entity.Record;
 
+import java.util.List;
+
 public interface RecordMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -10,6 +12,12 @@ public interface RecordMapper {
     int insertSelective(Record record);
 
     Record selectByPrimaryKey(Integer id);
+
+    List<Record> selectByUserId(Integer userId);
+
+    List<Record> selectByPeriodId(Integer periodId);
+
+    Record selectByRecordVal(Record record);
 
     int updateByPrimaryKeySelective(Record record);
 

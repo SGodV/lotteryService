@@ -2,15 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.zucc.cxw.lottery.mapper.UserMapper">
   <resultMap id="BaseResultMap" type="cn.edu.zucc.cxw.lottery.entity.User">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="user_email" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="user_pwd" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="user_name" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="rock_period" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="user_power" javaType="java.lang.String" jdbcType="CHAR" />
-      <arg column="user_phone" javaType="java.lang.String" jdbcType="VARCHAR" />
-    </constructor>
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+    <result column="user_pwd" jdbcType="VARCHAR" property="userPwd" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="rock_period" jdbcType="INTEGER" property="rockPeriod" />
+    <result column="user_power" jdbcType="CHAR" property="userPower" />
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
   </resultMap>
   <sql id="Base_Column_List">
     id, user_email, user_pwd, user_name, rock_period, user_power, user_phone
@@ -32,6 +30,12 @@
     <include refid="Base_Column_List" />
     from user
     where user_phone = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where id != 2
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user
